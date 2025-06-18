@@ -1,1 +1,40 @@
 
+const products = [
+  { name: "Men's T-Shirt", price: "₹499", img: "https://via.placeholder.com/200x200?text=T-Shirt" },
+  { name: "Women's Dress", price: "₹999", img: "https://via.placeholder.com/200x200?text=Dress" },
+  { name: "Shoes", price: "₹1499", img: "https://via.placeholder.com/200x200?text=Shoes" },
+  { name: "Watch", price: "₹1299", img: "https://via.placeholder.com/200x200?text=Watch" },
+];
+
+const productList = document.getElementById("productList");
+
+products.forEach(product => {
+  const card = document.createElement("div");
+  card.className = "product-card";
+  card.innerHTML = `
+    <img src="${product.img}" alt="${product.name}" />
+    <h3>${product.name}</h3>
+    <p>${product.price}</p>
+    
+  <button onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>
+`
+;
+  productList.appendChild(card);
+  
+});
+
+function addToCart(product) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart.push(product);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+  alert('${product.name} added to cart!');
+}
+
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  document.getElementById("cartCount").textContent = cart.length;
+}
+
+// Initialize cart count on page load
+updateCartCount();
